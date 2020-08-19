@@ -1,0 +1,20 @@
+server:
+  port: 8090
+spring:
+  jackson:
+    default-property-inclusion: non_null
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://39.107.77.70:5432/moment_db
+#    url: jdbc:postgresql://47.107.89.51:6003/test_box
+    username: zengqi
+#    username: shinemi
+    password: 123456
+#    password: shinemi11235813
+
+
+# 设置MyBatis 的全局配置文件，mapper 接口路径，mapper 接口对应的xml 配置文件
+mybatis:
+  type-aliases-package:cn.example.moment.pojo
+  mapperLocations:classpath:mapper/*.xml
