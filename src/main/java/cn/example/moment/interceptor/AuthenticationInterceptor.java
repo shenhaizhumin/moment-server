@@ -1,10 +1,12 @@
 package cn.example.moment.interceptor;
 
+import cn.example.moment.annotation.CurrentUser;
 import cn.example.moment.annotation.LoginRequired;
 import cn.example.moment.annotation.PassToken;
 import cn.example.moment.exception.BusinessInterfaceException;
 import cn.example.moment.pojo.UserEntity;
 import cn.example.moment.service.UserService;
+import cn.example.moment.utils.Constants;
 import cn.example.moment.utils.Logger;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -12,6 +14,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.MethodParameter;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -64,16 +67,21 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 if (!token.equals(redisTemplate.opsForValue().get("" + userId))) {
                     throw new BusinessInterfaceException(402, "token失效，请重新登录");
                 }
-                UserEntity user = userService.findUser(userId);
-                if (user == null) {
-                    throw new BusinessInterfaceException(404, "用户不存在，请重新登录");
-                }
                 // 验证 token
-                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
+                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(Constants.SECRET)).build();
                 try {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e) {
                     throw new BusinessInterfaceException(401, "token解析失败，重新登录.");
+                }
+                MethodParameter[] methodParameters = handlerMethod.getMethodParameters();
+                if (null != methodParameters && methodParameters.length > 0 && methodParameters[0].hasParameterAnnotation(CurrentUser.class)) {
+                    UserEntity user = userService.getUserById(userId);
+                    if (user == null) {
+                        throw new BusinessInterfaceException(404, "用户不存在，请重新登录");
+                    }
+                    Logger.logger.info("@CurrentUser:" + user.getUsername());
+                    httpServletRequest.setAttribute("currentUser", user);
                 }
 
                 return true;

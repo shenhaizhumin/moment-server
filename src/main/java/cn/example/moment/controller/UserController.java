@@ -1,5 +1,6 @@
 package cn.example.moment.controller;
 
+import cn.example.moment.annotation.CurrentUser;
 import cn.example.moment.annotation.LoginRequired;
 import cn.example.moment.api.BaseResponse;
 import cn.example.moment.api.body.UserBody;
@@ -37,7 +38,7 @@ public class UserController {
         String username = userBody.getUsername();
         String password = userBody.getPassword();
         Logger.logger.error(("username=" + username + ",pwd:" + password));
-        UserEntity userEntity = userService.queryUser(userBody);
+        UserEntity userEntity = userService.getUserByUsername(username);
         if (null == userEntity) {
             return new BaseResponse<UserEntity>(-200, "Incorrect username");
         }
@@ -48,9 +49,10 @@ public class UserController {
         return new BaseResponse<UserEntity>(userEntity);
     }
 
+    @LoginRequired
     @RequestMapping("/allUser")
     public List<UserEntity> findAll() {
-        List<UserEntity> users = userService.findAll();
+        List<UserEntity> users = userService.getAll();
         System.out.println(users);
         return users;
     }
@@ -58,7 +60,15 @@ public class UserController {
     @LoginRequired
     @RequestMapping("/queryUser/{id}")
     public UserEntity queryUser(@PathVariable Long id) {
-        UserEntity user = userService.findUser(id);
-        return user;
+        return userService.getUserById(id);
+    }
+
+    @LoginRequired
+    @PutMapping("/update")
+    public BaseResponse<UserEntity> update(@CurrentUser UserEntity currentUser, @RequestBody UserEntity userBody) {
+        Logger.logger.info("currentUser:" + currentUser.getUsername());
+        userBody.setId(currentUser.getId());
+        userService.update(userBody);
+        return new BaseResponse<UserEntity>(userService.getUserById(currentUser.getId()));
     }
 }

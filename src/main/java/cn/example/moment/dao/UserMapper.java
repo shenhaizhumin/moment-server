@@ -11,12 +11,23 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    @Select("select * from user_info")
-    public List<UserEntity> findAll();
+//    @Select("select * from user_info")
+//    public List<UserEntity> findAll();
+//
+//    @Select("select * from user_info where id=#{id}")
+//    public UserEntity findUser(Long id);
+//
+//    @Select("select *from user_info where username=#{username}")
+//    public UserEntity queryUserByUsername(String username);
 
-    @Select("select * from user_info where id=#{id}")
-    public UserEntity findUser(Long id);
+    List<UserEntity> getAll();
 
-    @Select("select *from user_info where username=#{username}")
-    public UserEntity queryUserByUsername(String username);
+    UserEntity getUserById(Long id);
+    UserEntity getUserByUsername(String username);
+
+    void insert(UserEntity userEntity);
+
+    void update(UserEntity userEntity);
+
+    void delete(Long id);
 }

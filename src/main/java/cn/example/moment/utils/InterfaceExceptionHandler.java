@@ -43,7 +43,7 @@ public class InterfaceExceptionHandler {
     @ResponseBody
     public BaseResponse exception(Exception e) {
         log.error(e.getMessage(), e);
-        BaseResponse resultBean = new BaseResponse(301, "301 error");
+        BaseResponse resultBean = new BaseResponse(301, e.getMessage());
         // 返回 JOSN
         return resultBean;
     }

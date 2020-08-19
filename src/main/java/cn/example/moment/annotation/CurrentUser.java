@@ -2,10 +2,8 @@ package cn.example.moment.annotation;
 
 import java.lang.annotation.*;
 
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE})
 @Documented
-public @interface PassToken {
-
-    boolean required() default true;
+public @interface CurrentUser {
 }
