@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -25,8 +26,8 @@ public class CollectController {
     @Autowired
     private MomentService momentService;
 
-    @LoginRequired
-    @GetMapping("/getCollects")
+//    @LoginRequired
+    @GetMapping("/collects")
     public BaseResponse<List<CollectEntity>> getCollects() {
         return new BaseResponse<>(collectService.getAll());
     }
@@ -42,7 +43,7 @@ public class CollectController {
         if (collectService.getCollectByUserId(currentUser.getId(), moment_id) != null) {
             return new BaseResponse<>(-200, "already collected!");
         }
-        collectEntity.setCreate_time(new Date(System.currentTimeMillis()));
+        collectEntity.setCreate_time(new Timestamp(System.currentTimeMillis()));
         collectEntity.setOperator_user_id(currentUser.getId());
         Boolean insertCollect = collectService.insertCollect(collectEntity);
         if (insertCollect != null && insertCollect) {

@@ -1,14 +1,22 @@
 package cn.example.moment.pojo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
-public class CollectEntity {
+public class CommentEntity {
     private Long id;
-    private Timestamp create_time;
-    private Long moment_id;
+    private String content;
     private Long operator_user_id;
+    private Long moment_id;
+    private Timestamp publish_time;
     private UserEntity publisher;
+
+    public Timestamp getPublish_time() {
+        return publish_time;
+    }
+
+    public void setPublish_time(Timestamp publish_time) {
+        this.publish_time = publish_time;
+    }
 
     public UserEntity getPublisher() {
         return publisher;
@@ -26,20 +34,12 @@ public class CollectEntity {
         this.id = id;
     }
 
-    public Timestamp getCreate_time() {
-        return create_time;
+    public String getContent() {
+        return content;
     }
 
-    public void setCreate_time(Timestamp create_time) {
-        this.create_time = create_time;
-    }
-
-    public Long getMoment_id() {
-        return moment_id;
-    }
-
-    public void setMoment_id(Long moment_id) {
-        this.moment_id = moment_id;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Long getOperator_user_id() {
@@ -48,5 +48,13 @@ public class CollectEntity {
 
     public void setOperator_user_id(Long operator_user_id) {
         this.operator_user_id = operator_user_id;
+    }
+
+    public Long getMoment_id() {
+        return moment_id;
+    }
+
+    public void setMoment_id(Long moment_id) {
+        this.moment_id = moment_id;
     }
 }

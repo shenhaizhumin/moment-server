@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 这里填写对应的Dao文件所在的路径 -->
+<mapper namespace="cn.example.moment.dao.CommentMapper">
+    <sql id="table">comment</sql>
+
+    <select id="getAll" resultType="cn.example.moment.pojo.CommentEntity">
+        select * from comment
+    </select>
+    <select id="getComments" parameterType="cn.example.moment.pojo.CommentEntity" resultType="cn.example.moment.pojo.CommentEntity">
+        select * from comment
+        <where>
+            0=0
+            <if test="operator_user_id != null">
+                and operator_user_id = #{operator_user_id}
+            </if>
+            <if test="moment_id != null">
+                and moment_id = #{moment_id}
+            </if>
+        </where>
+    </select>
+    <insert id="insertComment" parameterType="cn.example.moment.pojo.CommentEntity">
+        insert into comment(content,operator_user_id,moment_id,publish_time) values(#{content},#{operator_user_id},#{moment_id},#{publish_time})
+    </insert>
+</mapper>

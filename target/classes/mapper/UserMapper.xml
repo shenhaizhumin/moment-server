@@ -5,7 +5,7 @@
 <mapper namespace="cn.example.moment.dao.UserMapper">
     <!-- 填写数据库里实例UserEntity对应的表的表名 -->
     <!-- 这里是作为一个变量使用 -->
-<!--    <sql id="table">user_info</sql>-->
+    <!--    <sql id="table">user_info</sql>-->
     <sql id="table">account_info</sql>
 
     <!-- id属性填写Dao文件里的函数名称 xxType是参数或是结果的类型根据情况填写 -->
@@ -33,12 +33,24 @@
         *
         FROM
         <include refid="table"/>
-        WHERE
-        <if test="username != null">username = #{username}</if>
-        <if test="id != null">id = #{id}</if>
-        <if test="uid != null">uid = #{uid}</if>
-        <if test="email != null">email = #{email}</if>
-        <if test="mobile != null">mobile = #{mobile}</if>
+        <where>
+            0=0
+            <if test="username != null">
+                and username = #{username}
+            </if>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="uid != null">
+                and uid = #{uid}
+            </if>
+            <if test="email != null">
+                and email = #{email}
+            </if>
+            <if test="mobile != null">
+                and mobile = #{mobile}
+            </if>
+        </where>
     </select>
 
     <!-- 增 -->
@@ -63,7 +75,7 @@
             <if test="latest_time != null">latest_time = #{latest_time},</if>
             <if test="latest_ip != null">latest_ip = #{latest_ip},</if>
             <if test="avatar_url != null">avatar_url = #{avatar_url},</if>
-            <if test="moment_image != null">moment_image = #{moment_image},</if>
+            <if test="moment_image != null">moment_image = #{moment_image}</if>
         </set>
         WHERE
         id = #{id}

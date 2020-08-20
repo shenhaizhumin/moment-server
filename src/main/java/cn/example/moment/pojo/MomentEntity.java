@@ -1,15 +1,25 @@
 package cn.example.moment.pojo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class MomentEntity {
     private Long id;
     private String content;
     private Long user_id;
-    private Date publish_time;
+    private Timestamp publish_time;
     private String content_url;
     private List<CollectEntity> collects;
+    private List<CommentEntity> comments;
+
+    public List<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentEntity> comments) {
+        this.comments = comments;
+    }
 
     public List<CollectEntity> getCollects() {
         return collects;
@@ -43,11 +53,11 @@ public class MomentEntity {
         this.user_id = user_id;
     }
 
-    public Date getPublish_time() {
+    public Timestamp getPublish_time() {
         return publish_time;
     }
 
-    public void setPublish_time(Date publish_time) {
+    public void setPublish_time(Timestamp publish_time) {
         this.publish_time = publish_time;
     }
 

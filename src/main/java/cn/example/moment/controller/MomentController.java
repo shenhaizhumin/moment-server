@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class MomentController {
     @LoginRequired
     @PostMapping("/insertMoment")
     public BaseResponse<Object> insertMoment(@CurrentUser UserEntity currentUser, @RequestBody MomentEntity momentEntity) {
-        momentEntity.setPublish_time(new Date(System.currentTimeMillis()));
+        momentEntity.setPublish_time(new Timestamp(System.currentTimeMillis()));
         momentEntity.setUser_id(currentUser.getId());
         momentService.insertMoment(momentEntity);
         return new BaseResponse<>();

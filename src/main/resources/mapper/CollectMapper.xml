@@ -5,9 +5,20 @@
 <!-- 这里填写对应的Dao文件所在的路径 -->
 <mapper namespace="cn.example.moment.dao.CollectMapper">
     <sql id="table">collect</sql>
+    <resultMap id="collectMap" type="cn.example.moment.pojo.CollectEntity">
+        <id property="id" column="id"/>
+        <result property="create_time" column="create_time"/>
+        <result property="moment_id" column="moment_id"/>
+        <result property="operator_user_id" column="operator_user_id"/>
+        <association property="publisher" javaType="cn.example.moment.pojo.UserEntity">
+            <id property="id" column="u_id"/>
+            <result property="avatar_url" column="avatar_url"/>
+            <result property="nickname" column="nickname"/>
+        </association>
+    </resultMap>
 
-    <select id="getAll" resultType="cn.example.moment.pojo.CollectEntity">
-        select * from collect
+    <select id="getAll" resultMap="collectMap">
+        select c.*,u.id u_id,u.avatar_url,u.nickname  from collect c left join account_info u on c.operator_user_id=u.id
     </select>
 
     <insert id="insertCollect" parameterType="cn.example.moment.pojo.CollectEntity">

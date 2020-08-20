@@ -13,10 +13,29 @@
         <result property="publish_time" column="publish_time"/>
         <result property="content_url" column="content_url"/>
         <collection property="collects" ofType="cn.example.moment.pojo.CollectEntity" javaType="java.util.List">
-            <id property="id" column="c_id"/>
-            <result property="create_time" column="create_time"/>
-            <result property="moment_id" column="moment_id"/>
-            <result property="operator_user_id" column="operator_user_id"/>
+            <id property="id" column="collect_id"/>
+            <result property="create_time" column="collect_create_time"/>
+            <result property="moment_id" column="c_moment_id"/>
+            <result property="operator_user_id" column="collect_operator_user_id"/>
+            <association property="publisher" javaType="cn.example.moment.pojo.UserEntity">
+                <id property="id" column="collect_u_id"/>
+                <result property="nickname" column="collect_u_nickname"/>
+                <result property="avatar_url" column="collect_u_avatar_url"/>
+            </association>
+
+        </collection>
+        <collection property="comments" ofType="cn.example.moment.pojo.CommentEntity" javaType="java.util.List">
+            <id property="id" column="comment_id"/>
+            <result property="publish_time" column="comment_publish_time"/>
+            <result property="moment_id" column="comment_moment_id"/>
+            <result property="content" column="comment_content"/>
+            <result property="operator_user_id" column="comment_operator_user_id"/>
+            <association property="publisher" javaType="cn.example.moment.pojo.UserEntity">
+                <id property="id" column="comment_u_id"/>
+                <result property="nickname" column="comment_u_nickname"/>
+                <result property="avatar_url" column="comment_u_avatar_url"/>
+            </association>
+
         </collection>
         <!--<association property="type" javaType="cn.example.moment.pojo.CollectEntity">
             <id property="id" column="id"/>
@@ -35,14 +54,31 @@
     <select id="getAllMoments" resultMap="momentMap">
         SELECT
         m.*,
-        c.id c_id,
-        c.create_time,
-        c.moment_id,
-        c.operator_user_id
+        <!--点赞-->
+        c.id collect_id,
+        c.create_time collect_create_time,
+        c.moment_id collect_moment_id,
+        c.operator_user_id collect_operator_user_id,
+        <!--点赞者-->
+        collect_u.id collect_u_id,
+        collect_u.nickname collect_u_nickname,
+        collect_u.avatar_url collect_u_avatar_url,
+        <!--评论-->
+        co.id comment_id,
+        co.publish_time comment_publish_time,
+        co.moment_id comment_moment_id,
+        co.content comment_content,
+        co.operator_user_id comment_operator_user_id,
+        <!--评论者-->
+        comment_u.id comment_u_id,
+        comment_u.nickname comment_u_nickname,
+        comment_u.avatar_url comment_u_avatar_url
         FROM
         moment m
-        left join collect c
-        on c.moment_id=m.id
+        left join collect c on c.moment_id=m.id
+        left join account_info collect_u on c.operator_user_id=collect_u.id
+        left join comment co on co.moment_id=m.id
+        left join account_info comment_u on co.operator_user_id=comment_u.id
     </select>
 
     <insert id="insertMoment" parameterType="cn.example.moment.pojo.MomentEntity">
