@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
@@ -23,9 +24,9 @@ public interface UserMapper {
     List<UserEntity> getAll();
 
     UserEntity getUserById(Long id);
-    UserEntity getUserByUsername(String username);
+    UserEntity getUser(Map<String,String> params);
 
-    void insert(UserEntity userEntity);
+    void insert(UserBody userBody);
 
     void update(UserEntity userEntity);
 

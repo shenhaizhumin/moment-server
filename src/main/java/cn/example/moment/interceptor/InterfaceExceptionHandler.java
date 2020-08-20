@@ -1,4 +1,4 @@
-package cn.example.moment.utils;
+package cn.example.moment.interceptor;
 
 import cn.example.moment.exception.BusinessInterfaceException;
 import cn.example.moment.api.BaseResponse;
@@ -17,11 +17,10 @@ public class InterfaceExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(BusinessInterfaceException.class)
-    public BaseResponse businessInterfaceException(BusinessInterfaceException e) {
+    public BaseResponse<Object> businessInterfaceException(BusinessInterfaceException e) {
         log.error(e.getMessage(), e);
         ErrorBean error = e.getError();
-        BaseResponse resultBean = new BaseResponse(error.getCode(), error.getErrorMsg());
-        return resultBean;
+        return new BaseResponse<Object>(error.getCode(), error.getErrorMsg());
     }
 
     /**
@@ -29,11 +28,10 @@ public class InterfaceExceptionHandler {
      */
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody
-    public BaseResponse runtimeException(RuntimeException e) {
+    public BaseResponse<Object> runtimeException(RuntimeException e) {
         log.error(e.getMessage(), e);
         // 返回 JOSN
-        BaseResponse resultBean = new BaseResponse(301, e.getMessage());
-        return resultBean;
+        return new BaseResponse<Object>(400, e.getMessage());
     }
 
     /**
@@ -41,10 +39,9 @@ public class InterfaceExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public BaseResponse exception(Exception e) {
+    public BaseResponse<Object> exception(Exception e) {
         log.error(e.getMessage(), e);
-        BaseResponse resultBean = new BaseResponse(301, e.getMessage());
         // 返回 JOSN
-        return resultBean;
+        return new BaseResponse<Object>(400, e.getMessage());
     }
 }

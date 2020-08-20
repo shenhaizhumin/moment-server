@@ -2,10 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <!-- 这里填写对应的Dao文件所在的路径 -->
-<mapper namespace="cn.example.moment.dao.UserMapper"    >
+<mapper namespace="cn.example.moment.dao.UserMapper">
     <!-- 填写数据库里实例UserEntity对应的表的表名 -->
     <!-- 这里是作为一个变量使用 -->
-    <sql id="table">user_info</sql>
+<!--    <sql id="table">user_info</sql>-->
+    <sql id="table">account_info</sql>
 
     <!-- id属性填写Dao文件里的函数名称 xxType是参数或是结果的类型根据情况填写 -->
     <!-- 查询所有   -->
@@ -13,7 +14,7 @@
         SELECT
         *
         FROM
-        <include refid="table" />
+        <include refid="table"/>
     </select>
 
 
@@ -27,32 +28,43 @@
         id = #{id}
     </select>
 
-    <select id="getUserByUsername" resultType="cn.example.moment.pojo.UserEntity">
+    <select id="getUser" resultType="cn.example.moment.pojo.UserEntity">
         SELECT
         *
         FROM
         <include refid="table"/>
         WHERE
-        username = #{username}
+        <if test="username != null">username = #{username}</if>
+        <if test="id != null">id = #{id}</if>
+        <if test="uid != null">uid = #{uid}</if>
+        <if test="email != null">email = #{email}</if>
+        <if test="mobile != null">mobile = #{mobile}</if>
     </select>
 
     <!-- 增 -->
-    <insert id="insert" parameterType="cn.example.moment.pojo.UserEntity">
+    <insert id="insert" parameterType="cn.example.moment.api.body.UserBody">
         INSERT INTO
         <include refid="table"/>
-        (username,mobile)
+        (uid,username,nickname,email,mobile,password,latest_time,register_time,enable)
         VALUES
-        (#{username},#{mobile})
+        (#{uid},#{username},#{nickname},#{email},#{mobile},#{password},#{latest_time},#{register_time},#{enable})
     </insert>
 
     <!-- 改 -->
+    <!--使用 <set></set>可以智能去掉最后一个逗号，十分方便！-->
     <update id="update" parameterType="cn.example.moment.pojo.UserEntity">
         UPDATE
         <include refid="table"/>
-        SET
-        <!--<if test="name != null">name = #{name}</if>-->
-        username  = #{username},mobile = #{mobile},email = #{email},nickname=#{nickname},
-        latest_time=#{latest_time},latest_ip=#{latest_ip},avatar_url=#{avatar_url},moment_image=#{moment_image}
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="latest_time != null">latest_time = #{latest_time},</if>
+            <if test="latest_ip != null">latest_ip = #{latest_ip},</if>
+            <if test="avatar_url != null">avatar_url = #{avatar_url},</if>
+            <if test="moment_image != null">moment_image = #{moment_image},</if>
+        </set>
         WHERE
         id = #{id}
     </update>

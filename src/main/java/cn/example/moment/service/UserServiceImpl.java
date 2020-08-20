@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,13 +26,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getUserByUsername(String username) {
-        return userMapper.getUserByUsername(username);
+    public UserEntity getUser(Map<String,String> params) {
+        return userMapper.getUser(params);
     }
 
     @Override
-    public void insert(UserEntity userEntity) {
-        userMapper.insert(userEntity);
+    public void insert(UserBody userBody) {
+        userMapper.insert(userBody);
     }
 
     @Override

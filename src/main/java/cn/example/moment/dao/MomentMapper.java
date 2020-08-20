@@ -8,6 +8,10 @@ import java.util.List;
 
 @Mapper
 public interface MomentMapper {
-    @Select("select * from moment")
-    List<MomentEntity> findMoments();
+
+    List<MomentEntity> getAllMoments();
+
+    void insertMoment(MomentEntity momentEntity);
+
+    MomentEntity getMomentById(Long id);
 }

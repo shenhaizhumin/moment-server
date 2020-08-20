@@ -1,6 +1,7 @@
 package cn.example.moment.pojo;
 
 import java.sql.Date;
+import java.util.List;
 
 public class MomentEntity {
     private Long id;
@@ -8,6 +9,15 @@ public class MomentEntity {
     private Long user_id;
     private Date publish_time;
     private String content_url;
+    private List<CollectEntity> collects;
+
+    public List<CollectEntity> getCollects() {
+        return collects;
+    }
+
+    public void setCollects(List<CollectEntity> collects) {
+        this.collects = collects;
+    }
 
     public Long getId() {
         return id;

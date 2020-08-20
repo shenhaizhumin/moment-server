@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 这里填写对应的Dao文件所在的路径 -->
+<mapper namespace="cn.example.moment.dao.CollectMapper">
+    <sql id="table">collect</sql>
+
+    <select id="getAll" resultType="cn.example.moment.pojo.CollectEntity">
+        select * from collect
+    </select>
+
+    <insert id="insertCollect" parameterType="cn.example.moment.pojo.CollectEntity">
+        insert into collect(create_time,operator_user_id,moment_id) values(#{create_time},#{operator_user_id},#{moment_id})
+    </insert>
+    
+    <select id="getCollectByUserId" resultType="cn.example.moment.pojo.CollectEntity">
+        select id from collect where operator_user_id=(#{user_id}) and moment_id=(#{moment_id})
+    </select>
+</mapper>

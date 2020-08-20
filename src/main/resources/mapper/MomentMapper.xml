@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 这里填写对应的Dao文件所在的路径 -->
+<mapper namespace="cn.example.moment.dao.MomentMapper">
+    <sql id="table">moment</sql>
+
+    <resultMap id="momentMap" type="cn.example.moment.pojo.MomentEntity">
+        <id property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="user_id" column="user_id"/>
+        <result property="publish_time" column="publish_time"/>
+        <result property="content_url" column="content_url"/>
+        <collection property="collects" ofType="cn.example.moment.pojo.CollectEntity" javaType="java.util.List">
+            <id property="id" column="c_id"/>
+            <result property="create_time" column="create_time"/>
+            <result property="moment_id" column="moment_id"/>
+            <result property="operator_user_id" column="operator_user_id"/>
+        </collection>
+        <!--<association property="type" javaType="cn.example.moment.pojo.CollectEntity">
+            <id property="id" column="id"/>
+            <result property="create_time" column="create_time"/>
+            <result property="moment_id" column="moment_id"/>
+            <result property="operator_user_id" column="operator_user_id"/>
+        </association>-->
+    </resultMap>
+    <!--<resultMap id="collectMap" type="cn.example.moment.pojo.CollectEntity">
+        <id property="id" column="id"/>
+        <result property="create_time" column="create_time"/>
+        <result property="moment_id" column="moment_id"/>
+        <result property="operator_user_id" column="operator_user_id"/>
+    </resultMap>-->
+
+    <select id="getAllMoments" resultMap="momentMap">
+        SELECT
+        m.*,
+        c.id c_id,
+        c.create_time,
+        c.moment_id,
+        c.operator_user_id
+        FROM
+        moment m
+        left join collect c
+        on c.moment_id=m.id
+    </select>
+
+    <insert id="insertMoment" parameterType="cn.example.moment.pojo.MomentEntity">
+        insert into
+        <include refid="table"/>
+        (content,user_id,publish_time,content_url)
+        values
+        (#{content},#{user_id},#{publish_time,jdbcType = TIMESTAMP},#{content_url})
+    </insert>
+
+    <select id="getMomentById" parameterType="java.lang.Long" resultType="cn.example.moment.pojo.MomentEntity">
+        select id from moment where id=(#{id})
+    </select>
+</mapper>

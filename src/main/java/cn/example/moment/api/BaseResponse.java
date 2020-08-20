@@ -19,6 +19,10 @@ public class BaseResponse<T> {
         this.message = "ok";
         this.data = data;
     }
+    public BaseResponse(){
+        this.code = 200;
+        this.message = "ok";
+    }
 
     public void setMessage(String message) {
         this.message = message;

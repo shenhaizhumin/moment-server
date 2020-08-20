@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 
 //https://www.cnblogs.com/shihaiming/p/9565835.html
 public class AuthenticationInterceptor implements HandlerInterceptor {
@@ -58,13 +59,13 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     throw new BusinessInterfaceException(401, "无token，请重新登录");
                 }
                 // 获取 token 中的 user id
-                Long userId;
+                String uid;
                 try {
-                    userId = Long.parseLong(JWT.decode(token).getAudience().get(0));
+                    uid = JWT.decode(token).getAudience().get(0);
                 } catch (JWTDecodeException j) {
                     throw new RuntimeException("401");
                 }
-                if (!token.equals(redisTemplate.opsForValue().get("" + userId))) {
+                if (!token.equals(redisTemplate.opsForValue().get(uid))) {
                     throw new BusinessInterfaceException(402, "token失效，请重新登录");
                 }
                 // 验证 token
@@ -76,7 +77,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 }
                 MethodParameter[] methodParameters = handlerMethod.getMethodParameters();
                 if (null != methodParameters && methodParameters.length > 0 && methodParameters[0].hasParameterAnnotation(CurrentUser.class)) {
-                    UserEntity user = userService.getUserById(userId);
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("uid", uid);
+                    UserEntity user = userService.getUser(params);
                     if (user == null) {
                         throw new BusinessInterfaceException(404, "用户不存在，请重新登录");
                     }

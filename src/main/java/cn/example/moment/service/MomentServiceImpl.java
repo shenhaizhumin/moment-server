@@ -14,6 +14,16 @@ public class MomentServiceImpl implements MomentService {
 
     @Override
     public List<MomentEntity> getMoments() {
-        return momentMapper.findMoments();
+        return momentMapper.getAllMoments();
+    }
+
+    @Override
+    public void insertMoment(MomentEntity momentEntity) {
+        momentMapper.insertMoment(momentEntity);
+    }
+
+    @Override
+    public MomentEntity getMomentById(Long id) {
+        return momentMapper.getMomentById(id);
     }
 }

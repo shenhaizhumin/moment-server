@@ -4,6 +4,7 @@ import cn.example.moment.api.body.UserBody;
 import cn.example.moment.pojo.UserEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     //    List<UserEntity> findAll();
@@ -15,9 +16,9 @@ public interface UserService {
 
     UserEntity getUserById(Long id);
 
-    UserEntity getUserByUsername(String username);
+    UserEntity getUser(Map<String,String> params);
 
-    void insert(UserEntity userEntity);
+    void insert(UserBody userBody);
 
     void update(UserEntity userEntity);
 

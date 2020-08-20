@@ -11,9 +11,9 @@ import java.util.Date;
 @Service
 public class TokenServiceImpl implements TokenService {
     @Override
-    public String getToken(UserEntity user) {
+    public String getToken(String uid) {
         String token = "";
-        token = JWT.create().withAudience(user.getId() + "")
+        token = JWT.create().withAudience(uid)
                 .withExpiresAt(new Date(System.currentTimeMillis() + Constants.ExpireTime))
 //                .sign(Algorithm.HMAC256(user.getPassword())
                 .sign(Algorithm.HMAC256(Constants.SECRET)

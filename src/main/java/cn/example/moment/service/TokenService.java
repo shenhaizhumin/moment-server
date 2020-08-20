@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 
 public interface TokenService {
-    String getToken(UserEntity user);
+    String getToken(String uid);
 }

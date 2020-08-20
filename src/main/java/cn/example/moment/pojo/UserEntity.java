@@ -10,7 +10,7 @@ public class UserEntity {
      * latest_time = Column('latest_time', DateTime)
      * register_time = Column('register_time', DateTime, default=datetime.now())
      * type_role = Column('type_role', SMALLINT)
-     * enable = Column('enable', Boolean, default=True)
+     * enable = Column('enable', Integer, default=True)
      * email = Column('email', String)
      * latest_ip = Column('latest_ip', String)
      * mobile = Column('mobile', String)
@@ -24,9 +24,9 @@ public class UserEntity {
     private Long id;
     private String username;
     private String uid;
-    private String latest_time;
-    private String register_time;
-    private Boolean enable;
+    private Long latest_time;
+    private Long register_time;
+    private Integer enable;
     private String email;
     private String latest_ip;
     private String mobile;
@@ -35,6 +35,15 @@ public class UserEntity {
     private String password;
     private Integer role_id;
     private String access_token;
+    private String nickname;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public String getAccess_token() {
         return access_token;
@@ -68,27 +77,27 @@ public class UserEntity {
         this.uid = uid;
     }
 
-    public String getLatest_time() {
+    public Long getLatest_time() {
         return latest_time;
     }
 
-    public void setLatest_time(String latest_time) {
+    public void setLatest_time(Long latest_time) {
         this.latest_time = latest_time;
     }
 
-    public String getRegister_time() {
+    public Long getRegister_time() {
         return register_time;
     }
 
-    public void setRegister_time(String register_time) {
+    public void setRegister_time(Long register_time) {
         this.register_time = register_time;
     }
 
-    public Boolean getEnable() {
+    public Integer getEnable() {
         return enable;
     }
 
-    public void setEnable(Boolean enable) {
+    public void setEnable(Integer enable) {
         this.enable = enable;
     }
 
