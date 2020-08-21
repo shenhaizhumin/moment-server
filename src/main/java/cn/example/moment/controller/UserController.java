@@ -40,9 +40,9 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/session", method = RequestMethod.POST)
-    public BaseResponse<UserEntity> session(@RequestBody UserBody userBody) {
-        String username = userBody.getUsername();
-        String password = userBody.getPassword();
+    public BaseResponse<UserEntity> session(@RequestParam("username") String username, @RequestParam("password") String password) {
+//        String username = userBody.getUsername();
+//        String password = userBody.getPassword();
         Logger.logger.error(("username=" + username + ",pwd:" + password));
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username);
@@ -73,7 +73,7 @@ public class UserController {
 
     @LoginRequired
     @GetMapping("/userInfo")
-    public BaseResponse<UserEntity> getCurrentUser(@CurrentUser UserEntity currentUser){
+    public BaseResponse<UserEntity> getCurrentUser(@CurrentUser UserEntity currentUser) {
         return new BaseResponse<>(currentUser);
     }
 

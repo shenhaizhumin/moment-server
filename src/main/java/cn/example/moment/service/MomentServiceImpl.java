@@ -18,8 +18,8 @@ public class MomentServiceImpl implements MomentService {
     }
 
     @Override
-    public void insertMoment(MomentEntity momentEntity) {
-        momentMapper.insertMoment(momentEntity);
+    public Boolean insertMoment(MomentEntity momentEntity) {
+       return momentMapper.insertMoment(momentEntity);
     }
 
     @Override

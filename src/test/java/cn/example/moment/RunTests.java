@@ -1,7 +1,6 @@
 package cn.example.moment;
 
 import cn.example.moment.dao.UserMapper;
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

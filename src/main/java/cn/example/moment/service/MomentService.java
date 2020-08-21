@@ -7,7 +7,7 @@ import java.util.List;
 public interface MomentService {
     List<MomentEntity> getMoments();
 
-    void insertMoment(MomentEntity momentEntity);
+    Boolean insertMoment(MomentEntity momentEntity);
 
     MomentEntity getMomentById(Long id);
 }

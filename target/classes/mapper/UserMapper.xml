@@ -57,9 +57,9 @@
     <insert id="insert" parameterType="cn.example.moment.api.body.UserBody">
         INSERT INTO
         <include refid="table"/>
-        (uid,username,nickname,email,mobile,password,latest_time,register_time,enable)
+        (uid,username,nickname,email,mobile,password,latest_time,register_time,enable,avatar_url)
         VALUES
-        (#{uid},#{username},#{nickname},#{email},#{mobile},#{password},#{latest_time},#{register_time},#{enable})
+        (#{uid},#{username},#{nickname},#{email},#{mobile},#{password},#{latest_time},#{register_time},#{enable},#{avatar_url})
     </insert>
 
     <!-- 改 -->

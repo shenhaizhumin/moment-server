@@ -37,6 +37,11 @@
             </association>
 
         </collection>
+        <collection property="storages" ofType="cn.example.moment.pojo.StorageEntity" javaType="java.util.List">
+            <id property="id" column="storage_id"/>
+            <result property="file_url" column="storage_file_url"/>
+            <result property="moment_id" column="storage_moment_id"/>
+        </collection>
         <!--<association property="type" javaType="cn.example.moment.pojo.CollectEntity">
             <id property="id" column="id"/>
             <result property="create_time" column="create_time"/>
@@ -72,16 +77,22 @@
         <!--评论者-->
         comment_u.id comment_u_id,
         comment_u.nickname comment_u_nickname,
-        comment_u.avatar_url comment_u_avatar_url
+        comment_u.avatar_url comment_u_avatar_url,
+        <!--关联到的文件-->
+        storage.id storage_id,
+        storage.file_url storage_file_url,
+        storage.moment_id storage_moment_id
         FROM
         moment m
         left join collect c on c.moment_id=m.id
         left join account_info collect_u on c.operator_user_id=collect_u.id
         left join comment co on co.moment_id=m.id
         left join account_info comment_u on co.operator_user_id=comment_u.id
+        left join file_entity storage on m.id=storage.moment_id
+        order by m.publish_time desc
     </select>
 
-    <insert id="insertMoment" parameterType="cn.example.moment.pojo.MomentEntity">
+    <insert id="insertMoment" useGeneratedKeys="true" keyProperty="id" parameterType="cn.example.moment.pojo.MomentEntity">
         insert into
         <include refid="table"/>
         (content,user_id,publish_time,content_url)

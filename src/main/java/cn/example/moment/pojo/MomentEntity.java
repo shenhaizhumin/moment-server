@@ -12,6 +12,15 @@ public class MomentEntity {
     private String content_url;
     private List<CollectEntity> collects;
     private List<CommentEntity> comments;
+    private List<StorageEntity> storages;
+
+    public List<StorageEntity> getStorages() {
+        return storages;
+    }
+
+    public void setStorages(List<StorageEntity> storages) {
+        this.storages = storages;
+    }
 
     public List<CommentEntity> getComments() {
         return comments;

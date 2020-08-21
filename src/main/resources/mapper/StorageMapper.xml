@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 这里填写对应的Dao文件所在的路径 -->
+<mapper namespace="cn.example.moment.dao.StorageMapper">
+    <sql id="table">file_entity</sql>
+
+    <select id="getAll" resultType="cn.example.moment.pojo.StorageEntity">
+        select * from
+        <include refid="table"/>
+    </select>
+
+    <insert id="addStorageFile" useGeneratedKeys="true" keyProperty="id" parameterType="cn.example.moment.pojo.StorageEntity">
+        insert into
+        <include refid="table"/>
+        (file_name,file_path,file_url,moment_id,operator_id)
+        values(#{file_name},#{file_path},#{file_url},#{moment_id},#{operator_id})
+    </insert>
+
+    <update id="bindImageToMoment">
+        update
+        <include refid="table"/>
+        set moment_id=#{moment_id}
+        where id=#{storage_id}
+    </update>
+
+</mapper>

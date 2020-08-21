@@ -11,7 +11,7 @@ public interface MomentMapper {
 
     List<MomentEntity> getAllMoments();
 
-    void insertMoment(MomentEntity momentEntity);
+    Boolean insertMoment(MomentEntity momentEntity);
 
     MomentEntity getMomentById(Long id);
 }
